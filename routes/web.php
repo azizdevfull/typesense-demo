@@ -8,7 +8,13 @@ Route::get('/', function () {
 });
 
 Route::get('/products', function () {
-    $products = Product::with('attribute')->paginate(10);
+    $query = request()->query('q', ''); // q parametri, default bo'sh
+
+    // Typesense orqali qidiruv
+    $products = Product::search($query)->paginate(10);
+
+    // Relation ma'lumotini olish uchun kerak bo'lsa, eager load qilamiz
+    $products->getCollection()->load('attribute');
 
     return $products;
 });

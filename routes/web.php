@@ -8,7 +8,7 @@ Route::get('/', function () {
 });
 
 Route::get('/products', function () {
-    $products = Product::search(request('q'))->get();
+    $products = Product::with('attribute')->paginate(10);
 
     return $products;
 });

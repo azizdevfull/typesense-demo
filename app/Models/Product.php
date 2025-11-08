@@ -11,36 +11,29 @@ class Product extends Model
     use HasFactory;
     use Searchable;
 
-    protected $fillable = ['name', 'price', 'description'];
+    protected $fillable = ['name', 'price', 'description', 'attribute_id'];
 
     /**
      * Get the indexable data array for the model.
      */
     public function toSearchableArray(): array
     {
-        return [
+        $array = [
             'id' => (string) $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'price' => (float) $this->price,
             'created_at' => $this->created_at->timestamp,
         ];
+        // Include data from related tags
+        // $array['attribute'] = $this->attribute->pluck('name')->toArray(); // many
+        $array['attribute'] = $this->attribute ? $this->attribute->name : null; // single
+
+        return $array;
     }
 
-    /**
-     * Get the index name for the model.
-     */
-    public function searchableAs(): string
+    public function attribute()
     {
-        return 'products';
-    }
-
-    /**
-     * Get the Typesense schema for the model.
-     * Scoutning yangi versiyasida bu metod avtomatik ishlatiladi
-     */
-    protected function makeAllSearchableUsing($query)
-    {
-        return $query->with([]); // Kerakli relationlarni qo'shing
+        return $this->belongsTo(Attribute::class);
     }
 }

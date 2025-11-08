@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\Attribute;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Product>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Attribute>
  */
-class ProductFactory extends Factory
+class AttributeFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +18,6 @@ class ProductFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'description' => $this->faker->text(),
-            'price' => $this->faker->randomFloat(2, 0, 100),
-            'attribute_id' => Attribute::factory(),
         ];
     }
 }
